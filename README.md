@@ -1,46 +1,146 @@
-# Getting Started with Create React App
+# Finance Practice
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+新任マネージャー向け会計学習アプリ
 
-## Available Scripts
+[![Development Status](https://img.shields.io/badge/Phase-1%20Complete-success)](docs/development/phase1-completion.md)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-In the project directory, you can run:
+## 🎯 概要
 
-### `npm start`
+新任マネージャーのための会計知識習得を目的としたプラクティス型学習アプリケーションです。特にシステム開発費用の会計処理と財務3表の理解に焦点を当てています。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 対象ユーザー
+- 新任マネージャー、プロジェクトリーダー
+- 基本的な会計用語の理解がある方
+- 研修・学習目的での利用
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## ✨ 現在の機能（フェーズ1完成）
 
-### `npm test`
+### システム開発費用の会計処理シミュレータ
+- 開発フェーズの選択（要件定義・開発・運用保守）
+- 費用化・資産化の選択機能
+- 判断基準に基づいたガイダンス
+- 会計仕訳の自動生成
+- 減価償却見込み計算
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 クイックスタート
 
-### `npm run build`
+### 前提条件
+- Node.js 16.0.0 以上
+- npm または yarn
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### インストールと起動
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+# リポジトリのクローン
+git clone https://github.com/akihiro4321/finance-practice.git
+cd finance-practice
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 依存関係のインストール
+npm install
 
-### `npm run eject`
+# 開発サーバーの起動
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+アプリケーションは http://localhost:3000 で利用可能になります。
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### ビルド
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+# プロダクション用ビルド
+npm run build
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 📚 ドキュメント
 
-## Learn More
+### 仕様書
+- [要件定義書](docs/specs/requirements.md) - プロジェクトの要件と目的
+- [機能仕様書](docs/specs/functional-specs.md) - 詳細な機能仕様
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 設計書
+- [UIワイヤーフレーム](docs/design/ui-wireframes.md) - UI設計とレイアウト
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 開発関連
+- [実装計画書](docs/development/implementation-plan.md) - 7フェーズの開発計画
+- [フェーズ1完成報告書](docs/development/phase1-completion.md) - 現在の実装状況
+
+## 🛠 技術スタック
+
+- **Frontend**: React 18 + TypeScript
+- **Styling**: カスタムCSS（CSS変数ベース）
+- **State Management**: React Context
+- **Build Tool**: Create React App
+- **Version Control**: Git + GitHub
+
+## 📈 開発ロードマップ
+
+### フェーズ1: 基盤構築とコア機能のMVP ✅ **完了**
+- システム開発費用シミュレータの基本機能
+
+### フェーズ2: 会計処理シミュレータの拡張 🔄 **次期実装予定**
+- 詳細なプロジェクト情報入力
+- 会計仕訳の詳細生成ロジック
+
+### フェーズ3: 財務3表の基本表示
+- 損益計算書、貸借対照表、キャッシュフロー計算書
+
+### フェーズ4: 動的連携とインタラクティブ機能
+- シミュレータと財務3表の連携
+
+### フェーズ5: 予算策定練習モジュール
+- プロジェクト予算作成・シナリオ分析
+
+### フェーズ6: 学習コンテンツとケーススタディ
+- インタラクティブな学習コンテンツ
+
+### フェーズ7: 進捗管理とアセスメント
+- 学習進捗の可視化と個別最適化
+
+## 🎓 学習内容
+
+### 現在学習できること
+- システム開発の各フェーズでの会計処理の違い
+- 資産計上の判断基準（4つの基準）
+- 具体的な会計仕訳の例
+- 減価償却の基本概念
+
+### 今後追加予定
+- 財務3表の相互関係
+- 予算策定と進捗管理
+- ROI/IRR計算
+- 実践的なケーススタディ
+
+## 📊 現在の機能詳細
+
+### 開発フェーズ選択
+- **要件定義・設計**: 費用化（固定）
+- **開発・テスト**: 費用化/資産化選択可能
+- **運用・保守**: 費用化（固定）
+
+### 判断基準チェック（資産化選択時）
+- 将来の経済的便益が見込める
+- 技術的実現可能性がある
+- 完成・利用の意図がある
+- 完成に必要な資源が確保されている
+
+### 結果表示
+- 選択に応じた会計仕訳例
+- 会計処理のポイント解説
+- 減価償却見込み（5年定額法）
+
+## 🤝 コントリビューション
+
+現在は開発者による単独開発中です。将来的にはコントリビューションを受け付ける予定です。
+
+## 📄 ライセンス
+
+このプロジェクトはMITライセンスの下で公開されています。詳細は [LICENSE](LICENSE) ファイルを参照してください。
+
+## 📞 サポート
+
+質問や問題がある場合は、[GitHub Issues](https://github.com/akihiro4321/finance-practice/issues)で報告してください。
+
+---
+
+**開発状況**: フェーズ1完成 - 基本的なシステム開発費用シミュレータが利用可能
