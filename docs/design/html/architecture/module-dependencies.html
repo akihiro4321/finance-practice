@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モジュール依存関係図</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .dependency-graph {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .level {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .module {
+            border: 3px solid #2c3e50;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            min-width: 150px;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        .module:hover::before {
+            left: 100%;
+        }
+        .module:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .app-level { 
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); 
+            border-color: #d32f2f;
+            box-shadow: 0 5px 15px rgba(211,47,47,0.3);
+        }
+        .layout-level { 
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); 
+            border-color: #7b1fa2;
+            box-shadow: 0 5px 15px rgba(123,31,162,0.3);
+        }
+        .module-level { 
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%); 
+            border-color: #388e3c;
+            box-shadow: 0 5px 15px rgba(56,142,60,0.3);
+        }
+        .component-level { 
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); 
+            border-color: #f57c00;
+            box-shadow: 0 5px 15px rgba(245,124,0,0.3);
+        }
+        .utility-level { 
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); 
+            border-color: #0277bd;
+            box-shadow: 0 5px 15px rgba(2,119,189,0.3);
+        }
+        .arrow {
+            font-size: 3em;
+            color: #34495e;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .description {
+            background: rgba(236,240,241,0.9);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #3498db;
+            backdrop-filter: blur(5px);
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 40px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.7);
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 モジュール依存関係図</h1>
+        
+        <div class="description">
+            <p><strong>依存関係の流れ:</strong></p>
+            <p>このアプリケーションは階層的な依存関係を持っており、上位モジュールは下位モジュールに依存しますが、その逆はありません。この設計により、変更の影響を局所化し、テストやメンテナンスを容易にしています。</p>
+        </div>
+        
+        <div class="dependency-graph">
+            <div class="level">
+                <div class="module app-level">
+                    <h3>App.tsx</h3>
+                    <p>アプリケーション<br>エントリーポイント</p>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="level">
+                <div class="module layout-level">
+                    <h3>Layout</h3>
+                    <p>全体レイアウト<br>管理</p>
+                </div>
+                <div class="module layout-level">
+                    <h3>Header</h3>
+                    <p>アプリケーション<br>ヘッダー</p>
+                </div>
+                <div class="module layout-level">
+                    <h3>Navigation</h3>
+                    <p>モジュール間<br>ナビゲーション</p>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="level">
+                <div class="module module-level">
+                    <h3>Simulator</h3>
+                    <p>システム開発<br>シミュレーター</p>
+                </div>
+                <div class="module module-level">
+                    <h3>Financial<br>Dashboard</h3>
+                    <p>財務三表<br>ダッシュボード</p>
+                </div>
+                <div class="module module-level">
+                    <h3>Budget<br>Planner</h3>
+                    <p>予算策定<br>ツール</p>
+                </div>
+                <div class="module module-level">
+                    <h3>Learning<br>Module</h3>
+                    <p>実践学習<br>システム</p>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="level">
+                <div class="module component-level">
+                    <h3>ProjectForm</h3>
+                    <p>プロジェクト<br>入力フォーム</p>
+                </div>
+                <div class="module component-level">
+                    <h3>P/L Statement</h3>
+                    <p>損益計算書<br>コンポーネント</p>
+                </div>
+                <div class="module component-level">
+                    <h3>ROI Calculator</h3>
+                    <p>ROI計算<br>エンジン</p>
+                </div>
+                <div class="module component-level">
+                    <h3>CaseStudy<br>Viewer</h3>
+                    <p>ケーススタディ<br>表示</p>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="level">
+                <div class="module utility-level">
+                    <h3>accounting.ts</h3>
+                    <p>会計計算<br>ユーティリティ</p>
+                </div>
+                <div class="module utility-level">
+                    <h3>financial.ts</h3>
+                    <p>財務分析<br>ユーティリティ</p>
+                </div>
+                <div class="module utility-level">
+                    <h3>budget.ts</h3>
+                    <p>予算管理<br>ユーティリティ</p>
+                </div>
+                <div class="module utility-level">
+                    <h3>validation.ts</h3>
+                    <p>バリデーション<br>ユーティリティ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="description">
+            <h3>🏗️ アーキテクチャの特徴</h3>
+            <ul>
+                <li><strong>単方向依存:</strong> 循環依存を避け、明確な階層構造を維持</li>
+                <li><strong>責任分離:</strong> 各レイヤーが特定の責任を持つ</li>
+                <li><strong>テスト容易性:</strong> 下位レイヤーから独立してテスト可能</li>
+                <li><strong>拡張性:</strong> 新しい機能を適切なレイヤーに追加可能</li>
+            </ul>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color app-level"></div>
+                <span>アプリケーションレベル</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color layout-level"></div>
+                <span>レイアウトレベル</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color module-level"></div>
+                <span>モジュールレベル</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color component-level"></div>
+                <span>コンポーネントレベル</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color utility-level"></div>
+                <span>ユーティリティレベル</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

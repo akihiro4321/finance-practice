@@ -23,7 +23,7 @@ const CostBreakdown: React.FC<CostBreakdownProps> = ({
       label: '人件費',
       description: '開発チームの給与・賞与等',
       placeholder: '6000000',
-      color: 'bg-blue-100 border-blue-300'
+      color: 'bg-teal-100 border-teal-300'
     },
     {
       key: 'external' as keyof CostBreakdownType,

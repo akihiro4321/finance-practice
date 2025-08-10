@@ -116,7 +116,7 @@ const DetailedJournalEntry: React.FC<DetailedJournalEntryProps> = ({
       )}
 
       {/* 財務影響分析 */}
-      <div className="bg-blue-50 p-4 rounded-lg">
+      <div className="bg-teal-50 p-4 rounded-lg">
         <h4 className="text-sm font-medium text-blue-900 mb-3">財務影響分析</h4>
         
         <div className="grid md:grid-cols-2 gap-4">

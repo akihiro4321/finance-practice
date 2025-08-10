@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技術アーキテクチャ - レイヤー構成</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        .layer { 
+            border: 3px solid #2c3e50; 
+            margin: 20px 0; 
+            padding: 25px; 
+            border-radius: 12px; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .layer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .presentation { 
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-color: #1976d2;
+        }
+        .business { 
+            background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            border-color: #388e3c;
+        }
+        .data { 
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-color: #f57c00;
+        }
+        .infrastructure { 
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+            border-color: #c2185b;
+        }
+        .component-box { 
+            display: inline-block; 
+            border: 2px solid rgba(0,0,0,0.3);
+            padding: 12px 16px; 
+            margin: 8px; 
+            border-radius: 8px; 
+            background-color: rgba(255,255,255,0.9);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .component-box:hover {
+            transform: scale(1.05);
+            background-color: rgba(255,255,255,1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .layer h3 {
+            margin-top: 0;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .description {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+        .layer-connections {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 2em;
+            color: #7f8c8d;
+        }
+        .arrow {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ 技術アーキテクチャ - レイヤー構成</h1>
+        
+        <div class="description">
+            <p><strong>このアーキテクチャ図について:</strong></p>
+            <p>財務実践学習アプリケーションは、明確に分離された4つのレイヤーで構成されています。各レイヤーは特定の責任を持ち、上位レイヤーから下位レイヤーへの一方向の依存関係を維持しています。</p>
+        </div>
+        
+        <div class="layer presentation">
+            <h3>🎨 プレゼンテーション層 (Presentation Layer)</h3>
+            <p><strong>責任:</strong> ユーザーインターフェース、ユーザー体験、入力検証</p>
+            <div class="component-box">React Components</div>
+            <div class="component-box">Navigation System</div>
+            <div class="component-box">UI/UX Interface</div>
+            <div class="component-box">Form Validation</div>
+            <div class="component-box">Error Handling</div>
+        </div>
+
+        <div class="layer-connections">
+            <span class="arrow">↓</span>
+        </div>
+
+        <div class="layer business">
+            <h3>⚙️ ビジネスロジック層 (Business Logic Layer)</h3>
+            <p><strong>責任:</strong> 業務ルール、計算ロジック、ドメインモデル</p>
+            <div class="component-box">会計計算エンジン</div>
+            <div class="component-box">財務分析ロジック</div>
+            <div class="component-box">予算管理システム</div>
+            <div class="component-box">学習評価エンジン</div>
+            <div class="component-box">進捗管理システム</div>
+        </div>
+
+        <div class="layer-connections">
+            <span class="arrow">↓</span>
+        </div>
+
+        <div class="layer data">
+            <h3>📊 データアクセス層 (Data Access Layer)</h3>
+            <p><strong>責任:</strong> データ管理、永続化、型安全性</p>
+            <div class="component-box">TypeScript Types</div>
+            <div class="component-box">Data Validation</div>
+            <div class="component-box">State Management</div>
+            <div class="component-box">Local Storage</div>
+            <div class="component-box">Static Data Sources</div>
+        </div>
+
+        <div class="layer-connections">
+            <span class="arrow">↓</span>
+        </div>
+
+        <div class="layer infrastructure">
+            <h3>🔧 インフラストラクチャ層 (Infrastructure Layer)</h3>
+            <p><strong>責任:</strong> 実行環境、プラットフォーム、外部ツール</p>
+            <div class="component-box">React Runtime</div>
+            <div class="component-box">TypeScript Compiler</div>
+            <div class="component-box">Webpack Bundler</div>
+            <div class="component-box">Development Server</div>
+            <div class="component-box">Browser APIs</div>
+        </div>
+
+        <h2>🔗 レイヤー間の相互作用</h2>
+        <div class="description">
+            <ul>
+                <li><strong>プレゼンテーション → ビジネスロジック:</strong> ユーザー操作をビジネスルールに変換</li>
+                <li><strong>ビジネスロジック → データアクセス:</strong> 計算結果をデータ構造に保存</li>
+                <li><strong>データアクセス → インフラストラクチャ:</strong> ブラウザAPIやストレージを活用</li>
+                <li><strong>逆方向の流れ:</strong> データや状態の変更通知が上位レイヤーに伝播</li>
+            </ul>
+        </div>
+
+        <h2>🎯 設計の利点</h2>
+        <div class="description">
+            <ul>
+                <li><strong>関心の分離:</strong> 各レイヤーが明確な責任を持つ</li>
+                <li><strong>テスタビリティ:</strong> 各レイヤーを独立してテスト可能</li>
+                <li><strong>保守性:</strong> 変更の影響範囲が限定される</li>
+                <li><strong>拡張性:</strong> 新機能を適切なレイヤーに追加可能</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

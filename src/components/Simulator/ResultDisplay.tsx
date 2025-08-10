@@ -93,7 +93,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({
           </div>
         </div>
 
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+        <div className="mt-6 p-4 bg-teal-50 rounded-lg">
           <h3 className="text-sm font-medium text-blue-900 mb-2">
             💡 会計処理のポイント
           </h3>
