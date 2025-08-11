@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Exercise, ExerciseProgress } from '../../types/learning';
-import { exercises } from '../../data/exercises';
+import apiClient from '../../utils/api';
 
 interface ExerciseViewerProps {
   exerciseId?: string;
@@ -25,10 +25,34 @@ const ExerciseViewer: React.FC<ExerciseViewerProps> = ({
     timeSpent: 0,
     lastAttempted: new Date().toISOString()
   });
+  const [allExercises, setAllExercises] = useState<Exercise[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const exercise = exercises.find(ex => ex.id === exerciseId);
-    setSelectedExercise(exercise || null);
+    const fetchExerciseData = async () => {
+      setIsLoading(true);
+      try {
+        const exerciseResponse = await apiClient.getExercise(exerciseId);
+        if (exerciseResponse.success && exerciseResponse.data) {
+          setSelectedExercise(exerciseResponse.data);
+        } else {
+          setSelectedExercise(null);
+        }
+
+        const allExercisesResponse = await apiClient.getExercises();
+        if (allExercisesResponse.success && allExercisesResponse.data) {
+          setAllExercises(allExercisesResponse.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch exercise data:', error);
+        setSelectedExercise(null);
+        setAllExercises([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchExerciseData();
   }, [exerciseId]);
 
   useEffect(() => {
@@ -107,8 +131,12 @@ const ExerciseViewer: React.FC<ExerciseViewerProps> = ({
     return labels[type as keyof typeof labels] || type;
   };
 
+  if (isLoading) {
+    return <div className="text-center py-8 text-gray-600">演習問題を読み込み中...</div>;
+  }
+
   if (!selectedExercise) {
-    return <div className="text-center py-8">演習問題を読み込んでいます...</div>;
+    return <div className="text-center py-8 text-red-600">演習問題が見つかりませんでした。</div>;
   }
 
   return (
@@ -305,7 +333,7 @@ const ExerciseViewer: React.FC<ExerciseViewerProps> = ({
       <div className="bg-white p-6 rounded-lg shadow-sm border">
         <h2 className="text-xl font-bold text-gray-900 mb-4">その他の演習問題</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {exercises
+          {allExercises
             .filter(ex => ex.id !== selectedExercise.id)
             .map((exercise) => (
               <div

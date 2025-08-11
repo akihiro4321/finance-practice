@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CaseStudyViewer from './CaseStudyViewer';
 import ExerciseViewer from './ExerciseViewer';
 import ProgressDashboard from './ProgressDashboard';
-import { CaseStudyProgress, ExerciseProgress } from '../../types/learning';
+import { CaseStudyProgress, ExerciseProgress, CaseStudy, Exercise } from '../../types/learning';
+import apiClient from '../../utils/api';
 
 interface LearningModuleProps {
   initialModule?: 'dashboard' | 'case-study' | 'exercise';
@@ -14,17 +15,45 @@ const LearningModule: React.FC<LearningModuleProps> = ({
   const [activeModule, setActiveModule] = useState<'dashboard' | 'case-study' | 'exercise'>(initialModule);
   const [selectedCaseStudy, setSelectedCaseStudy] = useState('ecommerce-renewal');
   const [selectedExercise, setSelectedExercise] = useState('roi-calculation-basic');
+  const [caseStudyOptions, setCaseStudyOptions] = useState<CaseStudy[]>([]);
+  const [exerciseOptions, setExerciseOptions] = useState<Exercise[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLearningData = async () => {
+      try {
+        setIsLoading(true);
+        const caseStudiesResponse = await apiClient.getCaseStudies();
+        if (caseStudiesResponse.success && caseStudiesResponse.data) {
+          setCaseStudyOptions(caseStudiesResponse.data);
+          if (caseStudiesResponse.data.length > 0) {
+            setSelectedCaseStudy(caseStudiesResponse.data[0].id);
+          }
+        }
+
+        const exercisesResponse = await apiClient.getExercises();
+        if (exercisesResponse.success && exercisesResponse.data) {
+          setExerciseOptions(exercisesResponse.data);
+          if (exercisesResponse.data.length > 0) {
+            setSelectedExercise(exercisesResponse.data[0].id);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch learning data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLearningData();
+  }, []);
 
   const handleCaseStudyProgress = (progress: CaseStudyProgress) => {
     console.log('Case study progress updated:', progress);
-    // ここで実際のアプリケーションでは進捗をサーバーに保存したり、
-    // ローカルストレージに保存したりする
   };
 
   const handleExerciseProgress = (progress: ExerciseProgress) => {
     console.log('Exercise progress updated:', progress);
-    // ここで実際のアプリケーションでは進捗をサーバーに保存したり、
-    // ローカルストレージに保存したりする
   };
 
   const moduleOptions = [
@@ -33,19 +62,13 @@ const LearningModule: React.FC<LearningModuleProps> = ({
     { id: 'exercise', label: '演習問題', icon: '✏️' }
   ];
 
-  const caseStudyOptions = [
-    { id: 'ecommerce-renewal', label: 'ECサイトリニューアル', difficulty: 'intermediate' },
-    { id: 'cloud-migration', label: 'クラウド移行', difficulty: 'advanced' },
-    { id: 'ai-development', label: 'AI システム開発', difficulty: 'advanced' }
-  ];
-
-  const exerciseOptions = [
-    { id: 'roi-calculation-basic', label: 'ROI計算の基礎', type: 'ROI' },
-    { id: 'irr-calculation-intermediate', label: 'IRR計算と意思決定', type: 'IRR' },
-    { id: 'depreciation-straight-line', label: '定額法による減価償却', type: '減価償却' },
-    { id: 'budget-variance-analysis', label: '予算差異分析', type: '予算管理' },
-    { id: 'accounting-asset-vs-expense', label: '資産化vs費用化の判定', type: '会計処理' }
-  ];
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-6 flex items-center justify-center">
+        <p className="text-gray-600 text-lg">学習データを読み込み中...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -88,7 +111,7 @@ const LearningModule: React.FC<LearningModuleProps> = ({
               >
                 {caseStudyOptions.map((option) => (
                   <option key={option.id} value={option.id}>
-                    {option.label} ({option.difficulty})
+                    {option.title} ({option.difficulty})
                   </option>
                 ))}
               </select>
@@ -107,7 +130,7 @@ const LearningModule: React.FC<LearningModuleProps> = ({
               >
                 {exerciseOptions.map((option) => (
                   <option key={option.id} value={option.id}>
-                    {option.label} ({option.type})
+                    {option.title} ({option.type})
                   </option>
                 ))}
               </select>

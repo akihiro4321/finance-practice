@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DevelopmentPhase, AccountingTreatment, DecisionCriteria, Project, ValidationResult, DetailedJournalEntry, AccountingDecision, CostBreakdown } from '../../types';
 import PhaseSelector from './PhaseSelector';
 import DecisionGuide from './DecisionGuide';
@@ -8,6 +8,7 @@ import ProjectForm from '../ProjectForm/ProjectForm';
 import CostBreakdownComponent from '../ProjectForm/CostBreakdown';
 import DetailedJournalEntryComponent from '../JournalEntry/DetailedJournalEntry';
 import { generateJournalEntries, calculateConfidenceScore } from '../../utils/accounting';
+import apiClient from '../../utils/api';
 
 const Simulator: React.FC = () => {
   const [selectedPhase, setSelectedPhase] = useState<DevelopmentPhase>('development');
@@ -19,8 +20,7 @@ const Simulator: React.FC = () => {
     adequateResources: false
   });
 
-  // プロジェクト情報の状態管理
-  const [project, setProject] = useState<Partial<Project>>({
+  const defaultProject: Partial<Project> = {
     id: 'demo-project',
     name: 'ECサイトリニューアルシステム',
     description: '既存ECサイトの全面リニューアル。レスポンシブ対応、決済機能強化、管理画面刷新を実施。',
@@ -37,7 +37,30 @@ const Simulator: React.FC = () => {
       licenses: 300000,
       other: 200000
     }
-  });
+  };
+
+  const [project, setProject] = useState<Partial<Project>>(defaultProject);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await apiClient.getProjects();
+        if (response.success && response.data && response.data.length > 0) {
+          setProject(response.data[0]); // Load the first project
+        } else {
+          setProject(defaultProject); // Use default if no projects found
+        }
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+        setProject(defaultProject); // Fallback to default on error
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const [projectValidation, setProjectValidation] = useState<ValidationResult>({ isValid: true, errors: [], warnings: [] });
   const [costValidation, setCostValidation] = useState<ValidationResult>({ isValid: true, errors: [], warnings: [] });
@@ -94,6 +117,14 @@ const Simulator: React.FC = () => {
 
   const canShowDecisionGuide = selectedPhase === 'development' && treatment === 'capitalize';
   const isFormValid = projectValidation.isValid && costValidation.isValid;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-6 flex items-center justify-center">
+        <p className="text-gray-600 text-lg">プロジェクトデータを読み込み中...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">

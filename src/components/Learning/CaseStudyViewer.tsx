@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CaseStudy, Question, CaseStudyProgress } from '../../types/learning';
-import { caseStudies } from '../../data/caseStudies';
+import apiClient from '../../utils/api';
 
 interface CaseStudyViewerProps {
   caseStudyId?: string;
@@ -24,10 +24,27 @@ const CaseStudyViewer: React.FC<CaseStudyViewerProps> = ({
     questionsCorrect: 0,
     attempts: 0
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const caseStudy = caseStudies.find(cs => cs.id === caseStudyId);
-    setSelectedCase(caseStudy || null);
+    const fetchCaseStudy = async () => {
+      setIsLoading(true);
+      try {
+        const response = await apiClient.getCaseStudy(caseStudyId);
+        if (response.success && response.data) {
+          setSelectedCase(response.data);
+        } else {
+          setSelectedCase(null);
+        }
+      } catch (error) {
+        console.error('Failed to fetch case study:', error);
+        setSelectedCase(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCaseStudy();
   }, [caseStudyId]);
 
   useEffect(() => {
@@ -78,8 +95,12 @@ const CaseStudyViewer: React.FC<CaseStudyViewerProps> = ({
     }
   };
 
+  if (isLoading) {
+    return <div className="text-center py-8 text-gray-600">ケーススタディを読み込み中...</div>;
+  }
+
   if (!selectedCase) {
-    return <div className="text-center py-8">ケーススタディを読み込んでいます...</div>;
+    return <div className="text-center py-8 text-red-600">ケーススタディが見つかりませんでした。</div>;
   }
 
   return (
