@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import apiClient from '../../utils/api';
 
 interface DashboardStats {
@@ -9,6 +10,7 @@ interface DashboardStats {
 }
 
 const Dashboard: React.FC = () => {
+  const location = useLocation();
   const [stats, setStats] = useState<DashboardStats>({
     totalProjects: 0,
     activeProjects: 0,
@@ -224,7 +226,7 @@ const Dashboard: React.FC = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <button
-                className="bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-lg p-4 text-left transition-colors duration-200"
+                className={`bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-lg p-4 text-left transition-colors duration-200 ${location.pathname.startsWith('/projects') ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}
                 onClick={() => window.location.href = '/projects'}
               >
                 <div className="flex items-center">
@@ -241,7 +243,7 @@ const Dashboard: React.FC = () => {
               </button>
 
               <button
-                className="bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg p-4 text-left transition-colors duration-200"
+                className={`bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg p-4 text-left transition-colors duration-200 ${location.pathname.startsWith('/learning/case-studies') ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}
                 onClick={() => window.location.href = '/learning/case-studies'}
               >
                 <div className="flex items-center">
@@ -258,7 +260,7 @@ const Dashboard: React.FC = () => {
               </button>
 
               <button
-                className="bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg p-4 text-left transition-colors duration-200"
+                className={`bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg p-4 text-left transition-colors duration-200 ${location.pathname.startsWith('/learning/exercises') ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}
                 onClick={() => window.location.href = '/learning/exercises'}
               >
                 <div className="flex items-center">
@@ -275,7 +277,7 @@ const Dashboard: React.FC = () => {
               </button>
 
               <button
-                className="bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-lg p-4 text-left transition-colors duration-200"
+                className={`bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-lg p-4 text-left transition-colors duration-200 ${location.pathname.startsWith('/progress') ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}
                 onClick={() => window.location.href = '/progress'}
               >
                 <div className="flex items-center">

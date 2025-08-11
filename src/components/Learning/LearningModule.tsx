@@ -66,7 +66,7 @@ const LearningModule: React.FC<LearningModuleProps> = ({
               onClick={() => setActiveModule(module.id as any)}
               className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 activeModule === module.id
-                  ? 'bg-teal-600 text-white'
+                  ? 'bg-primary-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
@@ -138,7 +138,7 @@ const LearningModule: React.FC<LearningModuleProps> = ({
       </div>
 
       {/* ヘルプ・ガイダンス */}
-      <div className="bg-teal-50 border border-teal-200 rounded-lg p-4">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-start">
           <div className="text-blue-500 mr-3">💡</div>
           <div>

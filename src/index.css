@@ -114,6 +114,11 @@ body {
 .bg-white { background-color: white; }
 .bg-blue-50 { background-color: var(--blue-50); }
 .bg-yellow-50 { background-color: var(--yellow-50); }
+.bg-blue-900 { background-color: var(--blue-900); }
+.bg-teal-500 { background-color: #14b8a6; }
+.bg-green-500 { background-color: #22c55e; }
+.bg-purple-500 { background-color: #a855f7; }
+.bg-orange-500 { background-color: #f97316; }
 
 .text-white { color: white; }
 .text-gray-500 { color: var(--gray-500); }
